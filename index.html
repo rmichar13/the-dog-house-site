@@ -30,7 +30,7 @@
   </nav>
 
   <!-- HERO -->
-  <header class="hero">
+  <header class="hero" style="background-image: url('https://lh5.googleusercontent.com/p/AF1QipODd78kX0oAhsbUrPZpwc2tbJGKaj0IQcDVFziu=w1920-h1080-k-no');">
     <div class="hero-overlay"></div>
     <div class="container hero-content">
       <h1>Your Pup Deserves<br>the Best</h1>
@@ -76,27 +76,28 @@
     <div class="container">
       <h2 class="section-title">Our Happy Pups</h2>
       <p class="section-subtitle">Check out some of the dogs we've pampered</p>
-      <div class="gallery-grid">
-        <div class="gallery-item gallery-item--large">
-          <img src="https://lh5.googleusercontent.com/p/AF1QipODd78kX0oAhsbUrPZpwc2tbJGKaj0IQcDVFziu=w1920-h1080-k-no" alt="The Dog House grooming salon" loading="lazy">
-          <div class="gallery-caption">Our Salon</div>
+      <div class="slideshow">
+        <button class="slide-btn slide-btn--prev" aria-label="Previous slide">&#10094;</button>
+        <div class="slide-track">
+          <div class="slide active">
+            <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=1200&h=700&fit=crop" alt="Happy golden retriever after grooming">
+            <div class="slide-caption">Fresh & Clean</div>
+          </div>
+          <div class="slide">
+            <img src="https://images.unsplash.com/photo-1591160690555-5debfba0c36a?w=1200&h=700&fit=crop" alt="Goldendoodle puppy after first groom">
+            <div class="slide-caption">Puppy's First Groom</div>
+          </div>
+          <div class="slide">
+            <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=1200&h=700&fit=crop" alt="Happy dogs playing">
+            <div class="slide-caption">Happy Pups</div>
+          </div>
+          <div class="slide">
+            <img src="https://images.unsplash.com/photo-1583337130417-13571c7dbc0a?w=1200&h=700&fit=crop" alt="Freshly groomed poodle">
+            <div class="slide-caption">Looking Sharp</div>
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=600&h=600&fit=crop" alt="Happy golden retriever after grooming" loading="lazy">
-          <div class="gallery-caption">Fresh & Clean</div>
-        </div>
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1591160690555-5debfba0c36a?w=600&h=600&fit=crop" alt="Goldendoodle puppy after first groom" loading="lazy">
-          <div class="gallery-caption">Puppy's First Groom</div>
-        </div>
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=600&h=600&fit=crop" alt="Happy dogs playing" loading="lazy">
-          <div class="gallery-caption">Happy Pups</div>
-        </div>
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1583337130417-13571c7dbc0a?w=600&h=600&fit=crop" alt="Freshly groomed poodle" loading="lazy">
-          <div class="gallery-caption">Looking Sharp</div>
-        </div>
+        <button class="slide-btn slide-btn--next" aria-label="Next slide">&#10095;</button>
+        <div class="slide-dots"></div>
       </div>
     </div>
   </section>
@@ -228,9 +229,44 @@
   </footer>
 
   <script>
+    // Mobile menu toggle
     document.querySelector('.mobile-toggle').addEventListener('click', function() {
       document.querySelector('.nav-links').classList.toggle('open');
     });
+
+    // Slideshow
+    (function() {
+      var slides = document.querySelectorAll('.slide');
+      var prevBtn = document.querySelector('.slide-btn--prev');
+      var nextBtn = document.querySelector('.slide-btn--next');
+      var dotsContainer = document.querySelector('.slide-dots');
+      var current = 0;
+
+      // Create dots
+      slides.forEach(function(_, i) {
+        var dot = document.createElement('button');
+        dot.className = 'slide-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+        dot.addEventListener('click', function() { goTo(i); });
+        dotsContainer.appendChild(dot);
+      });
+
+      var dots = document.querySelectorAll('.slide-dot');
+
+      function goTo(index) {
+        slides[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = (index + slides.length) % slides.length;
+        slides[current].classList.add('active');
+        dots[current].classList.add('active');
+      }
+
+      prevBtn.addEventListener('click', function() { goTo(current - 1); });
+      nextBtn.addEventListener('click', function() { goTo(current + 1); });
+
+      // Auto-advance every 5 seconds
+      setInterval(function() { goTo(current + 1); }, 5000);
+    })();
   </script>
 
 </body>
